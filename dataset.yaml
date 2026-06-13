@@ -1,0 +1,11 @@
+path: d:/Anish/RVU/MY_Projects/tablet_count_model/data
+# path: content/data/pills.v1i.tensorflow/
+
+train: train
+val: valid
+test: test
+
+nc: 2
+names:
+  0: Empty
+  1: Fill
