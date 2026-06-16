@@ -2,12 +2,11 @@ from ultralytics import YOLO
 import cv2
 import os
 
-# 1. Load the exported TFLite model directly!
-# Ultralytics is smart enough to handle the TFLite runtime seamlessly.
-model = YOLO('best_int8_base.tflite', task='detect')
+# 1. Load the exported TFLite model
+# Note: You will need to replace 'best_int8.tflite' with the new model exported by the grayscale notebook
+model = YOLO('best_int8.tflite', task='detect')
 
-# 2. Point it to a test image from your validation set
-# image_path = 'data/valid/100_jpeg.rf.c77066ea09b612b20dc974df30a46d71.jpg'
+# 2. Point it to a test image
 image_path = '20260617_021150.jpg'
 
 if not os.path.exists(image_path):
@@ -17,15 +16,22 @@ if not os.path.exists(image_path):
 
 print(f"Running inference on {image_path}...\n")
 
-# 3. Run inference (conf=0.25 means it ignores detections under 25% confidence)
-results = model.predict(image_path, conf=0.25)
+# 3. Load image and convert to 3-channel grayscale exactly like training
+img = cv2.imread(image_path)
+if img is None:
+    print(f"Failed to load image at {image_path}")
+    exit(1)
+    
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+img_3ch_gray = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
 
-# 4. Extract and print the counting logic
+# 4. Run inference (pass the processed numpy array directly)
+results = model.predict(img_3ch_gray, conf=0.25)
+
+# 5. Extract and print the counting logic
 for r in results:
-    # Get the class IDs of all detected bounding boxes
     classes = r.boxes.cls.cpu().numpy()
     
-    # In your dataset.yaml, 0 = Empty, 1 = Fill
     empty_count = sum(classes == 0)
     fill_count = sum(classes == 1)
     
@@ -37,6 +43,5 @@ for r in results:
     print(f"📦 Total Sheet Capacity: {empty_count + fill_count}")
     print("="*30 + "\n")
 
-    # 5. Show the image with bounding boxes drawn over it
     print("Opening image viewer with bounding boxes... (Press any key or close window to exit)")
     r.show()
