@@ -1,0 +1,707 @@
+python3 train_yolo.py 
+Using device: cuda
+Mixed precision enabled: True
+Starting training...
+Ultralytics 8.4.69 🚀 Python-3.12.3 torch-2.5.1+cu121 CUDA:0 (NVIDIA GeForce GTX 1650, 3901MiB)
+engine/trainer: agnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=4, bgr=0.0, box=7.5, cache=False, cfg=None, classes=None, close_mosaic=10, cls=0.5, cls_pw=0.0, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=data_yolov8_gray/data.yaml, degrees=0.0, deterministic=True, device=0, dfl=1.5, dnn=False, dropout=0.0, dynamic=False, embed=None, end2end=None, epochs=20, erasing=0.4, exist_ok=False, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, half=False, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=640, int8=False, iou=0.7, keras=False, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=yolov8n.pt, momentum=0.937, mosaic=1.0, multi_scale=0.0, name=train-7, nbs=64, nms=False, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=100, perspective=0.0, plots=True, pose=12.0, pretrained=True, profile=False, project=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=0, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=botsort.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=0, workspace=None
+Overriding model.yaml nc=80 with nc=3
+
+                   from  n    params  module                                       arguments                     
+  0                  -1  1       464  ultralytics.nn.modules.conv.Conv             [3, 16, 3, 2]                 
+  1                  -1  1      4672  ultralytics.nn.modules.conv.Conv             [16, 32, 3, 2]                
+  2                  -1  1      7360  ultralytics.nn.modules.block.C2f             [32, 32, 1, True]             
+  3                  -1  1     18560  ultralytics.nn.modules.conv.Conv             [32, 64, 3, 2]                
+  4                  -1  2     49664  ultralytics.nn.modules.block.C2f             [64, 64, 2, True]             
+  5                  -1  1     73984  ultralytics.nn.modules.conv.Conv             [64, 128, 3, 2]               
+  6                  -1  2    197632  ultralytics.nn.modules.block.C2f             [128, 128, 2, True]           
+  7                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]              
+  8                  -1  1    460288  ultralytics.nn.modules.block.C2f             [256, 256, 1, True]           
+  9                  -1  1    164608  ultralytics.nn.modules.block.SPPF            [256, 256, 5]                 
+ 10                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 11             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 12                  -1  1    148224  ultralytics.nn.modules.block.C2f             [384, 128, 1]                 
+ 13                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 14             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 15                  -1  1     37248  ultralytics.nn.modules.block.C2f             [192, 64, 1]                  
+ 16                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+ 17            [-1, 12]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 18                  -1  1    123648  ultralytics.nn.modules.block.C2f             [192, 128, 1]                 
+ 19                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+ 20             [-1, 9]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 21                  -1  1    493056  ultralytics.nn.modules.block.C2f             [384, 256, 1]                 
+ 22        [15, 18, 21]  1    751897  ultralytics.nn.modules.head.Detect           [3, 16, None, [64, 128, 256]] 
+Model summary: 130 layers, 3,011,433 parameters, 3,011,417 gradients, 8.2 GFLOPs
+
+Transferred 319/355 items from pretrained weights
+Freezing layer 'model.22.dfl.conv.weight'
+WARNING ⚠️ AMP: checks failed ❌. AMP training on NVIDIA GeForce GTX 1650 GPU may cause NaN losses or zero-mAP results, so AMP will be disabled during training.
+train: Fast image access ✅ (ping: 0.0±0.0 ms, read: 1639.7±507.1 MB/s, size: 45.6 KB)
+train: Scanning /home/aninit/Downloads/Anish/tablet_pills_counter/data_yolov8_gray/train/labels.cache... 3826 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 3826/3826 844.6Mit/s 0.0s
+WARNING ⚠️ Box and segment counts should be equal, but got len(segments) = 921, len(boxes) = 38753. To resolve this only boxes will be used and all segments will be removed. To avoid this please supply either a detect or segment dataset, not a detect-segment mixed dataset.
+val: Fast image access ✅ (ping: 0.0±0.0 ms, read: 2401.7±455.2 MB/s, size: 73.7 KB)
+val: Scanning /home/aninit/Downloads/Anish/tablet_pills_counter/data_yolov8_gray/valid/labels.cache... 364 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 364/364 117.4Mit/s 0.0s
+WARNING ⚠️ Box and segment counts should be equal, but got len(segments) = 80, len(boxes) = 3728. To resolve this only boxes will be used and all segments will be removed. To avoid this please supply either a detect or segment dataset, not a detect-segment mixed dataset.
+optimizer: 'optimizer=auto' found, ignoring 'lr0=0.01' and 'momentum=0.937' and determining best 'optimizer', 'lr0' and 'momentum' automatically... 
+optimizer: AdamW(lr=0.001429, momentum=0.9) with parameter groups 57 weight(decay=0.0), 64 weight(decay=0.0005), 63 bias(decay=0.0)
+Plotting labels to /home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/labels.jpg... 
+Image sizes 640 train, 640 val
+Using 0 dataloader workers
+Logging results to /home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7
+Starting training for 20 epochs...
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       1/20      1.03G     0.7921      1.398     0.9847         12        640: 100% ━━━━━━━━━━━━ 957/957 6.7it/s 2:24
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 9.9it/s 4.7s
+                   all        364       3728      0.904      0.582      0.624      0.398
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       2/20      1.37G      0.686     0.9493     0.9532         12        640: 100% ━━━━━━━━━━━━ 957/957 6.4it/s 2:30
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 9.5it/s 4.8s
+                   all        364       3728      0.921      0.577      0.628      0.404
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       3/20      1.37G     0.6762     0.8563     0.9549         50        640: 100% ━━━━━━━━━━━━ 957/957 6.2it/s 2:35
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 9.7it/s 4.8s
+                   all        364       3728      0.942      0.607      0.645      0.413
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       4/20      1.37G     0.6355      0.803     0.9402         23        640: 100% ━━━━━━━━━━━━ 957/957 6.6it/s 2:24
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.0it/s 4.6s
+                   all        364       3728      0.907      0.594      0.631      0.397
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       5/20      1.37G     0.6312      0.759     0.9364         30        640: 100% ━━━━━━━━━━━━ 957/957 6.6it/s 2:24
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.1it/s 4.6s
+                   all        364       3728      0.929      0.616      0.647      0.436
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       6/20      1.37G     0.6015     0.7261     0.9288         35        640: 100% ━━━━━━━━━━━━ 957/957 6.6it/s 2:24
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.1it/s 4.6s
+                   all        364       3728      0.968      0.628      0.655       0.43
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       7/20      1.46G     0.5999     0.7096     0.9247         42        640: 100% ━━━━━━━━━━━━ 957/957 6.6it/s 2:24
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.1it/s 4.6s
+                   all        364       3728      0.956      0.631      0.655      0.448
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       8/20      1.46G     0.5773     0.6727      0.921          9        640: 100% ━━━━━━━━━━━━ 957/957 6.6it/s 2:25
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.0it/s 4.6s
+                   all        364       3728      0.977      0.627      0.657      0.438
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       9/20      1.46G     0.5759     0.6543     0.9178         22        640: 100% ━━━━━━━━━━━━ 957/957 6.6it/s 2:25
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.1it/s 4.5s
+                   all        364       3728      0.969      0.628      0.658      0.452
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      10/20      1.46G      0.553     0.6321     0.9107         53        640: 100% ━━━━━━━━━━━━ 957/957 6.6it/s 2:24
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.2it/s 4.5s
+                   all        364       3728      0.978      0.641      0.664       0.45
+Closing dataloader mosaic
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      11/20      1.46G     0.5471     0.5746     0.9006         26        640: 100% ━━━━━━━━━━━━ 957/957 6.8it/s 2:20
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.1it/s 4.6s
+                   all        364       3728      0.968      0.637       0.66      0.459
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      12/20      1.46G     0.5421     0.5545     0.8997         17        640: 100% ━━━━━━━━━━━━ 957/957 6.8it/s 2:20
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.1it/s 4.6s
+                   all        364       3728      0.976      0.646      0.663       0.46
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      13/20      1.46G     0.5248     0.5314     0.8941         20        640: 100% ━━━━━━━━━━━━ 957/957 6.9it/s 2:20
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.2it/s 4.5s
+                   all        364       3728      0.983      0.644      0.661      0.462
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      14/20      1.46G     0.5189     0.5068     0.8882         16        640: 100% ━━━━━━━━━━━━ 957/957 6.8it/s 2:20
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.2it/s 4.5s
+                   all        364       3728      0.982      0.636      0.662      0.467
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      15/20      1.46G     0.5054     0.4923     0.8864         20        640: 100% ━━━━━━━━━━━━ 957/957 6.9it/s 2:20
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.1it/s 4.6s
+                   all        364       3728      0.976      0.648      0.669       0.48
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      16/20      1.46G     0.4987     0.4676     0.8838         17        640: 100% ━━━━━━━━━━━━ 957/957 6.8it/s 2:20
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.1it/s 4.6s
+                   all        364       3728      0.978      0.645      0.664      0.471
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      17/20      1.46G     0.4915     0.4478     0.8801         10        640: 100% ━━━━━━━━━━━━ 957/957 6.8it/s 2:20
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.1it/s 4.6s
+                   all        364       3728      0.987      0.652      0.695      0.496
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      18/20      1.46G     0.4848      0.426     0.8759         26        640: 100% ━━━━━━━━━━━━ 957/957 6.9it/s 2:20
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.1it/s 4.5s
+                   all        364       3728      0.985      0.648      0.662      0.483
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      19/20      1.46G     0.4773     0.4114     0.8728         44        640: 100% ━━━━━━━━━━━━ 957/957 6.9it/s 2:20
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.1it/s 4.6s
+                   all        364       3728      0.984       0.65      0.666      0.482
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      20/20      1.46G     0.4646     0.3959     0.8721         21        640: 100% ━━━━━━━━━━━━ 957/957 6.8it/s 2:20
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.2it/s 4.5s
+                   all        364       3728      0.985      0.653      0.662       0.48
+
+20 epochs completed in 0.821 hours.
+Optimizer stripped from /home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/last.pt, 6.2MB
+Optimizer stripped from /home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/best.pt, 6.2MB
+
+Validating /home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/best.pt...
+Ultralytics 8.4.69 🚀 Python-3.12.3 torch-2.5.1+cu121 CUDA:0 (NVIDIA GeForce GTX 1650, 3901MiB)
+Model summary (fused): 73 layers, 3,006,233 parameters, 0 gradients, 8.1 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 46/46 10.2it/s 4.5s
+                   all        364       3728      0.987      0.652      0.695      0.496
+                 Empty        221       1199      0.982      0.969      0.993      0.733
+                  Full        343       2527      0.978      0.987      0.993      0.697
+                  Half          2          2          1          0      0.099     0.0594
+Speed: 0.3ms preprocess, 6.5ms inference, 0.0ms loss, 1.1ms postprocess per image
+Results saved to /home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7
+Training completed!
+Exporting model to INT8 TFLite format...
+Ultralytics 8.4.69 🚀 Python-3.12.3 torch-2.5.1+cu121 CPU (AMD Ryzen 5 3600 6-Core Processor)
+Model summary (fused): 73 layers, 3,006,233 parameters, 0 gradients, 8.1 GFLOPs
+
+PyTorch: starting from '/home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/best.pt' with input shape (1, 3, 640, 640) BCHW and output shape(s) (1, 7, 8400) (6.0 MB)
+TensorFlow SavedModel: collecting INT8 calibration images from 'data=data_yolov8_gray/data.yaml'
+val: Fast image access ✅ (ping: 0.0±0.0 ms, read: 1893.0±761.2 MB/s, size: 57.9 KB)
+val: Scanning /home/aninit/Downloads/Anish/tablet_pills_counter/data_yolov8_gray/valid/labels.cache... 364 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 364/364 169.6Mit/s 0.0s
+WARNING ⚠️ Box and segment counts should be equal, but got len(segments) = 80, len(boxes) = 3728. To resolve this only boxes will be used and all segments will be removed. To avoid this please supply either a detect or segment dataset, not a detect-segment mixed dataset.
+requirements: Ultralytics requirements ['onnx>=1.12.0,<2.0.0', 'onnxruntime', 'onnxslim>=0.1.82'] not found, attempting AutoUpdate...
+Collecting onnx<2.0.0,>=1.12.0
+  Downloading onnx-1.22.0-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.5 kB)
+Collecting onnxruntime
+  Downloading onnxruntime-1.27.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.4 kB)
+Collecting onnxslim>=0.1.82
+  Downloading onnxslim-0.1.94-py3-none-any.whl.metadata (10 kB)
+Requirement already satisfied: numpy>=1.23.2 in ./.venv/lib/python3.12/site-packages (from onnx<2.0.0,>=1.12.0) (2.4.6)
+Collecting protobuf>=4.25.1 (from onnx<2.0.0,>=1.12.0)
+  Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+Requirement already satisfied: typing_extensions>=4.15.0 in ./.venv/lib/python3.12/site-packages (from onnx<2.0.0,>=1.12.0) (4.15.0)
+Collecting ml_dtypes>=0.5.4 (from onnx<2.0.0,>=1.12.0)
+  Downloading ml_dtypes-0.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.9 kB)
+Collecting flatbuffers (from onnxruntime)
+  Downloading flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+Requirement already satisfied: packaging in ./.venv/lib/python3.12/site-packages (from onnxruntime) (26.2)
+Collecting colorama (from onnxslim>=0.1.82)
+  Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Requirement already satisfied: sympy>=1.13.1 in ./.venv/lib/python3.12/site-packages (from onnxslim>=0.1.82) (1.13.1)
+Requirement already satisfied: mpmath<1.4,>=1.1.0 in ./.venv/lib/python3.12/site-packages (from sympy>=1.13.1->onnxslim>=0.1.82) (1.3.0)
+Downloading onnx-1.22.0-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (19.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 19.1/19.1 MB 57.8 MB/s eta 0:00:00
+Downloading onnxruntime-1.27.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (18.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.7/18.7 MB 31.5 MB/s eta 0:00:00
+Downloading onnxslim-0.1.94-py3-none-any.whl (238 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 238.4/238.4 kB 28.2 MB/s eta 0:00:00
+Downloading ml_dtypes-0.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (5.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.0/5.0 MB 26.1 MB/s eta 0:00:00
+Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl (327 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 327.1/327.1 kB 31.7 MB/s eta 0:00:00
+Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Downloading flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+Installing collected packages: flatbuffers, protobuf, ml_dtypes, colorama, onnxruntime, onnx, onnxslim
+Successfully installed colorama-0.4.6 flatbuffers-25.12.19 ml_dtypes-0.5.4 onnx-1.22.0 onnxruntime-1.27.0 onnxslim-0.1.94 protobuf-7.35.1
+
+requirements: AutoUpdate success ✅ 7.5s
+WARNING ⚠️ requirements: Restart runtime or rerun command for updates to take effect
+
+
+ONNX: starting export with onnx 1.22.0 opset 19...
+ONNX: slimming with onnxslim 0.1.94...
+2026-06-17 19:38:37.494239391 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"
+ONNX: export success ✅ 8.7s, saved as '/home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/best.onnx' (11.8 MB)
+requirements: Ultralytics requirement ['tensorflow>=2.0.0,<=2.19.0'] not found, attempting AutoUpdate...
+Collecting tensorflow<=2.19.0,>=2.0.0
+  Downloading tensorflow-2.19.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+Collecting absl-py>=1.0.0 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading absl_py-2.4.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting astunparse>=1.6.0 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading astunparse-1.6.3-py2.py3-none-any.whl.metadata (4.4 kB)
+Requirement already satisfied: flatbuffers>=24.3.25 in ./.venv/lib/python3.12/site-packages (from tensorflow<=2.19.0,>=2.0.0) (25.12.19)
+Collecting gast!=0.5.0,!=0.5.1,!=0.5.2,>=0.2.1 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading gast-0.7.0-py3-none-any.whl.metadata (1.5 kB)
+Collecting google-pasta>=0.1.1 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading google_pasta-0.2.0-py3-none-any.whl.metadata (814 bytes)
+Collecting libclang>=13.0.0 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading libclang-18.1.1-py2.py3-none-manylinux2010_x86_64.whl.metadata (5.2 kB)
+Collecting opt-einsum>=2.3.2 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading opt_einsum-3.4.0-py3-none-any.whl.metadata (6.3 kB)
+Requirement already satisfied: packaging in ./.venv/lib/python3.12/site-packages (from tensorflow<=2.19.0,>=2.0.0) (26.2)
+Collecting protobuf!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<6.0.0dev,>=3.20.3 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading protobuf-5.29.6-cp38-abi3-manylinux2014_x86_64.whl.metadata (592 bytes)
+Requirement already satisfied: requests<3,>=2.21.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<=2.19.0,>=2.0.0) (2.34.2)
+Requirement already satisfied: setuptools in ./.venv/lib/python3.12/site-packages (from tensorflow<=2.19.0,>=2.0.0) (81.0.0)
+Requirement already satisfied: six>=1.12.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<=2.19.0,>=2.0.0) (1.17.0)
+Collecting termcolor>=1.1.0 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading termcolor-3.3.0-py3-none-any.whl.metadata (6.5 kB)
+Requirement already satisfied: typing-extensions>=3.6.6 in ./.venv/lib/python3.12/site-packages (from tensorflow<=2.19.0,>=2.0.0) (4.15.0)
+Collecting wrapt>=1.11.0 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading wrapt-2.2.1-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (7.4 kB)
+Collecting grpcio<2.0,>=1.24.3 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading grpcio-1.81.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.7 kB)
+Collecting tensorboard~=2.19.0 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading tensorboard-2.19.0-py3-none-any.whl.metadata (1.8 kB)
+Collecting keras>=3.5.0 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading keras-3.14.1-py3-none-any.whl.metadata (6.3 kB)
+Collecting numpy<2.2.0,>=1.26.0 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading numpy-2.1.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.0/62.0 kB 7.7 MB/s eta 0:00:00
+Collecting h5py>=3.11.0 (from tensorflow<=2.19.0,>=2.0.0)
+  Downloading h5py-3.16.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+Requirement already satisfied: ml-dtypes<1.0.0,>=0.5.1 in ./.venv/lib/python3.12/site-packages (from tensorflow<=2.19.0,>=2.0.0) (0.5.4)
+Collecting wheel<1.0,>=0.23.0 (from astunparse>=1.6.0->tensorflow<=2.19.0,>=2.0.0)
+  Downloading wheel-0.47.0-py3-none-any.whl.metadata (2.3 kB)
+Collecting rich (from keras>=3.5.0->tensorflow<=2.19.0,>=2.0.0)
+  Downloading rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+Collecting namex (from keras>=3.5.0->tensorflow<=2.19.0,>=2.0.0)
+  Downloading namex-0.1.0-py3-none-any.whl.metadata (322 bytes)
+Collecting optree (from keras>=3.5.0->tensorflow<=2.19.0,>=2.0.0)
+  Downloading optree-0.19.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (32 kB)
+Requirement already satisfied: charset_normalizer<4,>=2 in ./.venv/lib/python3.12/site-packages (from requests<3,>=2.21.0->tensorflow<=2.19.0,>=2.0.0) (3.4.7)
+Requirement already satisfied: idna<4,>=2.5 in ./.venv/lib/python3.12/site-packages (from requests<3,>=2.21.0->tensorflow<=2.19.0,>=2.0.0) (3.18)
+Requirement already satisfied: urllib3<3,>=1.26 in ./.venv/lib/python3.12/site-packages (from requests<3,>=2.21.0->tensorflow<=2.19.0,>=2.0.0) (2.7.0)
+Requirement already satisfied: certifi>=2023.5.7 in ./.venv/lib/python3.12/site-packages (from requests<3,>=2.21.0->tensorflow<=2.19.0,>=2.0.0) (2026.6.17)
+Collecting markdown>=2.6.8 (from tensorboard~=2.19.0->tensorflow<=2.19.0,>=2.0.0)
+  Downloading markdown-3.10.2-py3-none-any.whl.metadata (5.1 kB)
+Collecting tensorboard-data-server<0.8.0,>=0.7.0 (from tensorboard~=2.19.0->tensorflow<=2.19.0,>=2.0.0)
+  Downloading tensorboard_data_server-0.7.2-py3-none-manylinux_2_31_x86_64.whl.metadata (1.1 kB)
+Collecting werkzeug>=1.0.1 (from tensorboard~=2.19.0->tensorflow<=2.19.0,>=2.0.0)
+  Downloading werkzeug-3.1.8-py3-none-any.whl.metadata (4.0 kB)
+Requirement already satisfied: markupsafe>=2.1.1 in ./.venv/lib/python3.12/site-packages (from werkzeug>=1.0.1->tensorboard~=2.19.0->tensorflow<=2.19.0,>=2.0.0) (3.0.3)
+Collecting markdown-it-py>=2.2.0 (from rich->keras>=3.5.0->tensorflow<=2.19.0,>=2.0.0)
+  Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+Collecting pygments<3.0.0,>=2.13.0 (from rich->keras>=3.5.0->tensorflow<=2.19.0,>=2.0.0)
+  Downloading pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich->keras>=3.5.0->tensorflow<=2.19.0,>=2.0.0)
+  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+Downloading tensorflow-2.19.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (645.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 645.0/645.0 MB 19.5 MB/s eta 0:00:00
+Downloading absl_py-2.4.0-py3-none-any.whl (135 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 135.8/135.8 kB 39.4 MB/s eta 0:00:00
+Downloading astunparse-1.6.3-py2.py3-none-any.whl (12 kB)
+Downloading gast-0.7.0-py3-none-any.whl (22 kB)
+Downloading google_pasta-0.2.0-py3-none-any.whl (57 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.5/57.5 kB 40.7 MB/s eta 0:00:00
+Downloading grpcio-1.81.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (6.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.8/6.8 MB 19.7 MB/s eta 0:00:00
+Downloading h5py-3.16.0-cp312-cp312-manylinux_2_28_x86_64.whl (5.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.4/5.4 MB 21.3 MB/s eta 0:00:00
+Downloading keras-3.14.1-py3-none-any.whl (1.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 24.5 MB/s eta 0:00:00
+Downloading libclang-18.1.1-py2.py3-none-manylinux2010_x86_64.whl (24.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 24.5/24.5 MB 14.1 MB/s eta 0:00:00
+Downloading numpy-2.1.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.0/16.0 MB 10.4 MB/s eta 0:00:00
+Downloading opt_einsum-3.4.0-py3-none-any.whl (71 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.9/71.9 kB 11.8 MB/s eta 0:00:00
+Downloading protobuf-5.29.6-cp38-abi3-manylinux2014_x86_64.whl (320 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 320.5/320.5 kB 11.3 MB/s eta 0:00:00
+Downloading tensorboard-2.19.0-py3-none-any.whl (5.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.5/5.5 MB 9.9 MB/s eta 0:00:00
+Downloading termcolor-3.3.0-py3-none-any.whl (7.7 kB)
+Downloading wrapt-2.2.1-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (169 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 169.4/169.4 kB 20.1 MB/s eta 0:00:00
+Downloading markdown-3.10.2-py3-none-any.whl (108 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 108.2/108.2 kB 15.1 MB/s eta 0:00:00
+Downloading tensorboard_data_server-0.7.2-py3-none-manylinux_2_31_x86_64.whl (6.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 18.7 MB/s eta 0:00:00
+Downloading werkzeug-3.1.8-py3-none-any.whl (226 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 226.5/226.5 kB 24.0 MB/s eta 0:00:00
+Downloading wheel-0.47.0-py3-none-any.whl (32 kB)
+Downloading namex-0.1.0-py3-none-any.whl (5.9 kB)
+Downloading optree-0.19.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (457 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 457.6/457.6 kB 21.6 MB/s eta 0:00:00
+Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 310.7/310.7 kB 22.0 MB/s eta 0:00:00
+Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.7/91.7 kB 56.1 MB/s eta 0:00:00
+Downloading pygments-2.20.0-py3-none-any.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 22.1 MB/s eta 0:00:00
+Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Installing collected packages: namex, libclang, wrapt, wheel, werkzeug, termcolor, tensorboard-data-server, pygments, protobuf, optree, opt-einsum, numpy, mdurl, markdown, grpcio, google-pasta, gast, absl-py, tensorboard, markdown-it-py, h5py, astunparse, rich, keras, tensorflow
+  Attempting uninstall: protobuf
+    Found existing installation: protobuf 7.35.1
+    Uninstalling protobuf-7.35.1:
+      Successfully uninstalled protobuf-7.35.1
+  Attempting uninstall: numpy
+    Found existing installation: numpy 2.4.6
+    Uninstalling numpy-2.4.6:
+      Successfully uninstalled numpy-2.4.6
+Successfully installed absl-py-2.4.0 astunparse-1.6.3 gast-0.7.0 google-pasta-0.2.0 grpcio-1.81.1 h5py-3.16.0 keras-3.14.1 libclang-18.1.1 markdown-3.10.2 markdown-it-py-4.2.0 mdurl-0.1.2 namex-0.1.0 numpy-2.1.3 opt-einsum-3.4.0 optree-0.19.1 protobuf-5.29.6 pygments-2.20.0 rich-15.0.0 tensorboard-2.19.0 tensorboard-data-server-0.7.2 tensorflow-2.19.0 termcolor-3.3.0 werkzeug-3.1.8 wheel-0.47.0 wrapt-2.2.1
+
+requirements: AutoUpdate success ✅ 135.8s
+WARNING ⚠️ requirements: Restart runtime or rerun command for updates to take effect
+
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1781705454.013965  179821 cuda_dnn.cc:8579] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1781705454.017942  179821 cuda_blas.cc:1407] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+W0000 00:00:1781705454.029043  179821 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1781705454.029066  179821 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1781705454.029069  179821 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+W0000 00:00:1781705454.029072  179821 computation_placer.cc:177] computation placer already registered. Please check linkage and avoid linking the same target more than once.
+Traceback (most recent call last):
+  File "/home/aninit/Downloads/Anish/tablet_pills_counter/.venv/lib/python3.12/site-packages/ultralytics/utils/export/tensorflow.py", line 95, in onnx2saved_model
+    import tensorflow as tf
+ModuleNotFoundError: No module named 'tensorflow'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
+Traceback (most recent call last):
+  File "/home/aninit/Downloads/Anish/tablet_pills_counter/.venv/lib/python3.12/site-packages/ultralytics/utils/export/tensorflow.py", line 95, in onnx2saved_model
+    import tensorflow as tf
+ModuleNotFoundError: No module named 'tensorflow'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
+Traceback (most recent call last):
+  File "/home/aninit/Downloads/Anish/tablet_pills_counter/.venv/lib/python3.12/site-packages/ultralytics/utils/export/tensorflow.py", line 95, in onnx2saved_model
+    import tensorflow as tf
+ModuleNotFoundError: No module named 'tensorflow'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
+Traceback (most recent call last):
+  File "/home/aninit/Downloads/Anish/tablet_pills_counter/.venv/lib/python3.12/site-packages/ultralytics/utils/export/tensorflow.py", line 95, in onnx2saved_model
+    import tensorflow as tf
+ModuleNotFoundError: No module named 'tensorflow'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
+Traceback (most recent call last):
+  File "/home/aninit/Downloads/Anish/tablet_pills_counter/.venv/lib/python3.12/site-packages/ultralytics/utils/export/tensorflow.py", line 95, in onnx2saved_model
+    import tensorflow as tf
+ModuleNotFoundError: No module named 'tensorflow'
+
+During handling of the above exception, another exception occurred:
+
+AttributeError: 'MessageFactory' object has no attribute 'GetPrototype'
+requirements: Ultralytics requirement ['onnx2tf>=1.26.3,<1.29.0'] not found, attempting AutoUpdate...
+Collecting onnx2tf<1.29.0,>=1.26.3
+  Downloading onnx2tf-1.28.8-py3-none-any.whl.metadata (152 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 152.9/152.9 kB 7.3 MB/s eta 0:00:00
+Downloading onnx2tf-1.28.8-py3-none-any.whl (469 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 469.2/469.2 kB 12.6 MB/s eta 0:00:00
+Installing collected packages: onnx2tf
+Successfully installed onnx2tf-1.28.8
+
+requirements: AutoUpdate success ✅ 1.6s
+WARNING ⚠️ requirements: Restart runtime or rerun command for updates to take effect
+
+requirements: Ultralytics requirements ['tf_keras<=2.19.0', 'sng4onnx>=1.0.1', 'onnx_graphsurgeon>=0.3.26', 'ai-edge-litert>=1.2.0', 'onnxruntime-gpu'] not found, attempting AutoUpdate...
+Looking in indexes: https://pypi.org/simple, https://pypi.ngc.nvidia.com
+Collecting tf_keras<=2.19.0
+  Downloading tf_keras-2.19.0-py3-none-any.whl.metadata (1.8 kB)
+Collecting sng4onnx>=1.0.1
+  Downloading sng4onnx-2.0.1-py3-none-any.whl.metadata (4.6 kB)
+Collecting onnx_graphsurgeon>=0.3.26
+  Downloading onnx_graphsurgeon-0.6.1-py2.py3-none-any.whl.metadata (8.2 kB)
+Collecting ai-edge-litert>=1.2.0
+  Downloading ai_edge_litert-2.1.5-cp312-cp312-manylinux_2_27_x86_64.whl.metadata (2.3 kB)
+Collecting onnxruntime-gpu
+  Downloading onnxruntime_gpu-1.26.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.6 kB)
+Requirement already satisfied: tensorflow<2.20,>=2.19 in ./.venv/lib/python3.12/site-packages (from tf_keras<=2.19.0) (2.19.0)
+Requirement already satisfied: ml-dtypes in ./.venv/lib/python3.12/site-packages (from onnx_graphsurgeon>=0.3.26) (0.5.4)
+Requirement already satisfied: numpy in ./.venv/lib/python3.12/site-packages (from onnx_graphsurgeon>=0.3.26) (2.1.3)
+Requirement already satisfied: onnx>=1.14.0 in ./.venv/lib/python3.12/site-packages (from onnx_graphsurgeon>=0.3.26) (1.22.0)
+Collecting backports.strenum (from ai-edge-litert>=1.2.0)
+  Downloading backports_strenum-1.2.8-py3-none-any.whl.metadata (3.6 kB)
+Requirement already satisfied: flatbuffers in ./.venv/lib/python3.12/site-packages (from ai-edge-litert>=1.2.0) (25.12.19)
+Collecting tqdm (from ai-edge-litert>=1.2.0)
+  Downloading tqdm-4.68.3-py3-none-any.whl.metadata (57 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.4/57.4 kB 6.1 MB/s eta 0:00:00
+Requirement already satisfied: typing-extensions in ./.venv/lib/python3.12/site-packages (from ai-edge-litert>=1.2.0) (4.15.0)
+Requirement already satisfied: protobuf in ./.venv/lib/python3.12/site-packages (from ai-edge-litert>=1.2.0) (5.29.6)
+Requirement already satisfied: packaging in ./.venv/lib/python3.12/site-packages (from onnxruntime-gpu) (26.2)
+Requirement already satisfied: absl-py>=1.0.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (2.4.0)
+Requirement already satisfied: astunparse>=1.6.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (1.6.3)
+Requirement already satisfied: gast!=0.5.0,!=0.5.1,!=0.5.2,>=0.2.1 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (0.7.0)
+Requirement already satisfied: google-pasta>=0.1.1 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (0.2.0)
+Requirement already satisfied: libclang>=13.0.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (18.1.1)
+Requirement already satisfied: opt-einsum>=2.3.2 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (3.4.0)
+Requirement already satisfied: requests<3,>=2.21.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (2.34.2)
+Requirement already satisfied: setuptools in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (81.0.0)
+Requirement already satisfied: six>=1.12.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (1.17.0)
+Requirement already satisfied: termcolor>=1.1.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (3.3.0)
+Requirement already satisfied: wrapt>=1.11.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (2.2.1)
+Requirement already satisfied: grpcio<2.0,>=1.24.3 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (1.81.1)
+Requirement already satisfied: tensorboard~=2.19.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (2.19.0)
+Requirement already satisfied: keras>=3.5.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (3.14.1)
+Requirement already satisfied: h5py>=3.11.0 in ./.venv/lib/python3.12/site-packages (from tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (3.16.0)
+Requirement already satisfied: wheel<1.0,>=0.23.0 in ./.venv/lib/python3.12/site-packages (from astunparse>=1.6.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (0.47.0)
+Requirement already satisfied: rich in ./.venv/lib/python3.12/site-packages (from keras>=3.5.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (15.0.0)
+Requirement already satisfied: namex in ./.venv/lib/python3.12/site-packages (from keras>=3.5.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (0.1.0)
+Requirement already satisfied: optree in ./.venv/lib/python3.12/site-packages (from keras>=3.5.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (0.19.1)
+Requirement already satisfied: charset_normalizer<4,>=2 in ./.venv/lib/python3.12/site-packages (from requests<3,>=2.21.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (3.4.7)
+Requirement already satisfied: idna<4,>=2.5 in ./.venv/lib/python3.12/site-packages (from requests<3,>=2.21.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (3.18)
+Requirement already satisfied: urllib3<3,>=1.26 in ./.venv/lib/python3.12/site-packages (from requests<3,>=2.21.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (2.7.0)
+Requirement already satisfied: certifi>=2023.5.7 in ./.venv/lib/python3.12/site-packages (from requests<3,>=2.21.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (2026.6.17)
+Requirement already satisfied: markdown>=2.6.8 in ./.venv/lib/python3.12/site-packages (from tensorboard~=2.19.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (3.10.2)
+Requirement already satisfied: tensorboard-data-server<0.8.0,>=0.7.0 in ./.venv/lib/python3.12/site-packages (from tensorboard~=2.19.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (0.7.2)
+Requirement already satisfied: werkzeug>=1.0.1 in ./.venv/lib/python3.12/site-packages (from tensorboard~=2.19.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (3.1.8)
+Requirement already satisfied: markupsafe>=2.1.1 in ./.venv/lib/python3.12/site-packages (from werkzeug>=1.0.1->tensorboard~=2.19.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (3.0.3)
+Requirement already satisfied: markdown-it-py>=2.2.0 in ./.venv/lib/python3.12/site-packages (from rich->keras>=3.5.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (4.2.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in ./.venv/lib/python3.12/site-packages (from rich->keras>=3.5.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (2.20.0)
+Requirement already satisfied: mdurl~=0.1 in ./.venv/lib/python3.12/site-packages (from markdown-it-py>=2.2.0->rich->keras>=3.5.0->tensorflow<2.20,>=2.19->tf_keras<=2.19.0) (0.1.2)
+Downloading tf_keras-2.19.0-py3-none-any.whl (1.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 55.6 MB/s eta 0:00:00
+Downloading sng4onnx-2.0.1-py3-none-any.whl (11 kB)
+Downloading onnx_graphsurgeon-0.6.1-py2.py3-none-any.whl (59 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 59.3/59.3 kB 246.5 MB/s eta 0:00:00
+Downloading ai_edge_litert-2.1.5-cp312-cp312-manylinux_2_27_x86_64.whl (17.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.6/17.6 MB 62.8 MB/s eta 0:00:00
+Downloading onnxruntime_gpu-1.26.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (277.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 277.0/277.0 MB 18.9 MB/s eta 0:00:00
+Downloading backports_strenum-1.2.8-py3-none-any.whl (7.9 kB)
+Downloading tqdm-4.68.3-py3-none-any.whl (78 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.3/78.3 kB 20.3 MB/s eta 0:00:00
+Installing collected packages: tqdm, sng4onnx, onnxruntime-gpu, backports.strenum, ai-edge-litert, onnx_graphsurgeon, tf_keras
+Successfully installed ai-edge-litert-2.1.5 backports.strenum-1.2.8 onnx_graphsurgeon-0.6.1 onnxruntime-gpu-1.26.0 sng4onnx-2.0.1 tf_keras-2.19.0 tqdm-4.68.3
+
+requirements: AutoUpdate success ✅ 31.6s
+WARNING ⚠️ requirements: Restart runtime or rerun command for updates to take effect
+
+
+TensorFlow SavedModel: starting export with tensorflow 2.19.0...
+Downloading https://github.com/ultralytics/assets/releases/download/v8.4.0/calibration_image_sample_data_20x128x128x3_float32.npy.zip to 'calibration_image_sample_data_20x128x128x3_float32.npy.zip': 100% ━━━━━━━━━━━━ 1.1MB 30.6MB/s 0.0s
+Unzipping calibration_image_sample_data_20x128x128x3_float32.npy.zip to /home/aninit/Downloads/Anish/tablet_pills_counter/calibration_image_sample_data_20x128x128x3_float32.npy...: 100% ━━━━━━━━━━━━ 1/1 40.1files/s 0.0s
+TensorFlow SavedModel: starting TFLite export with onnx2tf 1.28.8...
+I0000 00:00:1781705514.306480  179821 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 2357 MB memory:  -> device: 0, name: NVIDIA GeForce GTX 1650, pci bus id: 0000:0a:00.0, compute capability: 7.5
+E0000 00:00:1781705518.530156  179821 cuda_dnn.cc:522] Loaded runtime CuDNN library: 9.1.0 but source was compiled with: 9.3.0.  CuDNN library needs to have matching major version and equal or higher minor version. If using a binary install, upgrade your CuDNN library.  If building from sources, make sure the library loaded at runtime is compatible with the version specified during compile configuration.
+E0000 00:00:1781705519.629446  179821 cuda_dnn.cc:522] Loaded runtime CuDNN library: 9.1.0 but source was compiled with: 9.3.0.  CuDNN library needs to have matching major version and equal or higher minor version. If using a binary install, upgrade your CuDNN library.  If building from sources, make sure the library loaded at runtime is compatible with the version specified during compile configuration.
+E0000 00:00:1781705520.330843  179821 cuda_dnn.cc:522] Loaded runtime CuDNN library: 9.1.0 but source was compiled with: 9.3.0.  CuDNN library needs to have matching major version and equal or higher minor version. If using a binary install, upgrade your CuDNN library.  If building from sources, make sure the library loaded at runtime is compatible with the version specified during compile configuration.
+E0000 00:00:1781705520.838251  179821 cuda_dnn.cc:522] Loaded runtime CuDNN library: 9.1.0 but source was compiled with: 9.3.0.  CuDNN library needs to have matching major version and equal or higher minor version. If using a binary install, upgrade your CuDNN library.  If building from sources, make sure the library loaded at runtime is compatible with the version specified during compile configuration.
+E0000 00:00:1781705521.908522  179821 cuda_dnn.cc:522] Loaded runtime CuDNN library: 9.1.0 but source was compiled with: 9.3.0.  CuDNN library needs to have matching major version and equal or higher minor version. If using a binary install, upgrade your CuDNN library.  If building from sources, make sure the library loaded at runtime is compatible with the version specified during compile configuration.
+E0000 00:00:1781705522.387228  179821 cuda_dnn.cc:522] Loaded runtime CuDNN library: 9.1.0 but source was compiled with: 9.3.0.  CuDNN library needs to have matching major version and equal or higher minor version. If using a binary install, upgrade your CuDNN library.  If building from sources, make sure the library loaded at runtime is compatible with the version specified during compile configuration.
+E0000 00:00:1781705522.866215  179821 cuda_dnn.cc:522] Loaded runtime CuDNN library: 9.1.0 but source was compiled with: 9.3.0.  CuDNN library needs to have matching major version and equal or higher minor version. If using a binary install, upgrade your CuDNN library.  If building from sources, make sure the library loaded at runtime is compatible with the version specified during compile configuration.
+E0000 00:00:1781705523.367679  179821 cuda_dnn.cc:522] Loaded runtime CuDNN library: 9.1.0 but source was compiled with: 9.3.0.  CuDNN library needs to have matching major version and equal or higher minor version. If using a binary install, upgrade your CuDNN library.  If building from sources, make sure the library loaded at runtime is compatible with the version specified during compile configuration.
+Saved artifact at '/home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/best_saved_model'. The following endpoints are available:
+
+* Endpoint 'serving_default'
+  inputs_0 (POSITIONAL_ONLY): TensorSpec(shape=(1, 640, 640, 3), dtype=tf.float32, name='images')
+Output Type:
+  TensorSpec(shape=(1, 7, 8400), dtype=tf.float32, name=None)
+Captures:
+  132770076297936: TensorSpec(shape=(4, 2), dtype=tf.int32, name=None)
+  132770076296208: TensorSpec(shape=(3, 3, 3, 16), dtype=tf.float32, name=None)
+  132770076298896: TensorSpec(shape=(16,), dtype=tf.float32, name=None)
+  132770076302352: TensorSpec(shape=(4, 2), dtype=tf.int32, name=None)
+  132770076299664: TensorSpec(shape=(3, 3, 16, 32), dtype=tf.float32, name=None)
+  132770076303312: TensorSpec(shape=(32,), dtype=tf.float32, name=None)
+  132770076303504: TensorSpec(shape=(1, 1, 32, 32), dtype=tf.float32, name=None)
+  132770076302736: TensorSpec(shape=(32,), dtype=tf.float32, name=None)
+  132770076304272: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132770076304080: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132770105718160: TensorSpec(shape=(3, 3, 16, 16), dtype=tf.float32, name=None)
+  132770105719696: TensorSpec(shape=(16,), dtype=tf.float32, name=None)
+  132770076305616: TensorSpec(shape=(3, 3, 16, 16), dtype=tf.float32, name=None)
+  132770076305424: TensorSpec(shape=(16,), dtype=tf.float32, name=None)
+  132770076303696: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132770076304464: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132770076305040: TensorSpec(shape=(1, 1, 48, 32), dtype=tf.float32, name=None)
+  132770076306768: TensorSpec(shape=(32,), dtype=tf.float32, name=None)
+  132770076305808: TensorSpec(shape=(4, 2), dtype=tf.int32, name=None)
+  132770076306576: TensorSpec(shape=(3, 3, 32, 64), dtype=tf.float32, name=None)
+  132770076306960: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132770076307152: TensorSpec(shape=(1, 1, 64, 64), dtype=tf.float32, name=None)
+  132770076307536: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132770076308112: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132770076307920: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132770076308880: TensorSpec(shape=(3, 3, 32, 32), dtype=tf.float32, name=None)
+  132770076310224: TensorSpec(shape=(32,), dtype=tf.float32, name=None)
+  132770076307728: TensorSpec(shape=(3, 3, 32, 32), dtype=tf.float32, name=None)
+  132770076307344: TensorSpec(shape=(32,), dtype=tf.float32, name=None)
+  132770076310608: TensorSpec(shape=(3, 3, 32, 32), dtype=tf.float32, name=None)
+  132770076310416: TensorSpec(shape=(32,), dtype=tf.float32, name=None)
+  132770076309072: TensorSpec(shape=(3, 3, 32, 32), dtype=tf.float32, name=None)
+  132770076309648: TensorSpec(shape=(32,), dtype=tf.float32, name=None)
+  132770076308304: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132770076308496: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132770076311184: TensorSpec(shape=(1, 1, 128, 64), dtype=tf.float32, name=None)
+  132770076310992: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132770076310800: TensorSpec(shape=(4, 2), dtype=tf.int32, name=None)
+  132770076309456: TensorSpec(shape=(3, 3, 64, 128), dtype=tf.float32, name=None)
+  132770076311376: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861582928: TensorSpec(shape=(1, 1, 128, 128), dtype=tf.float32, name=None)
+  132769861583312: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861583888: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861583696: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861584656: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861586000: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132770076295440: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132770076298128: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132770105718928: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132770105718736: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132770105719504: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132770105718544: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861584080: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861584272: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132770105717968: TensorSpec(shape=(1, 1, 256, 128), dtype=tf.float32, name=None)
+  132770105718352: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861584848: TensorSpec(shape=(4, 2), dtype=tf.int32, name=None)
+  132770105719120: TensorSpec(shape=(3, 3, 128, 256), dtype=tf.float32, name=None)
+  132769861583504: TensorSpec(shape=(256,), dtype=tf.float32, name=None)
+  132769861583120: TensorSpec(shape=(1, 1, 256, 256), dtype=tf.float32, name=None)
+  132769861586384: TensorSpec(shape=(256,), dtype=tf.float32, name=None)
+  132769861586576: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861585424: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861587344: TensorSpec(shape=(3, 3, 128, 128), dtype=tf.float32, name=None)
+  132769861588688: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861586192: TensorSpec(shape=(3, 3, 128, 128), dtype=tf.float32, name=None)
+  132769861585232: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861586768: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861586960: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861588880: TensorSpec(shape=(1, 1, 384, 256), dtype=tf.float32, name=None)
+  132769861589072: TensorSpec(shape=(256,), dtype=tf.float32, name=None)
+  132769861587536: TensorSpec(shape=(1, 1, 256, 128), dtype=tf.float32, name=None)
+  132769861588112: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861589264: TensorSpec(shape=(1, 1, 512, 256), dtype=tf.float32, name=None)
+  132769861587920: TensorSpec(shape=(256,), dtype=tf.float32, name=None)
+  132769861589840: TensorSpec(shape=(1, 1, 384, 128), dtype=tf.float32, name=None)
+  132769861589456: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861590416: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861590224: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861591184: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861592528: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861590032: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861589648: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861590608: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861590800: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861592912: TensorSpec(shape=(1, 1, 192, 128), dtype=tf.float32, name=None)
+  132769861591760: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861592720: TensorSpec(shape=(1, 1, 192, 64), dtype=tf.float32, name=None)
+  132769861591952: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861593488: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861593296: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861594256: TensorSpec(shape=(3, 3, 32, 32), dtype=tf.float32, name=None)
+  132769861595600: TensorSpec(shape=(32,), dtype=tf.float32, name=None)
+  132769861593104: TensorSpec(shape=(3, 3, 32, 32), dtype=tf.float32, name=None)
+  132769861591376: TensorSpec(shape=(32,), dtype=tf.float32, name=None)
+  132769861593680: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861593872: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861595984: TensorSpec(shape=(1, 1, 96, 64), dtype=tf.float32, name=None)
+  132769861594832: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861595024: TensorSpec(shape=(4, 2), dtype=tf.int32, name=None)
+  132769861595792: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861594448: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861597712: TensorSpec(shape=(1, 1, 192, 128), dtype=tf.float32, name=None)
+  132769861597904: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861484816: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861484624: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861485584: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861487312: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861598864: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861599056: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861485008: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861485200: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861486160: TensorSpec(shape=(1, 1, 192, 128), dtype=tf.float32, name=None)
+  132769861486352: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861487120: TensorSpec(shape=(4, 2), dtype=tf.int32, name=None)
+  132769861485776: TensorSpec(shape=(3, 3, 128, 128), dtype=tf.float32, name=None)
+  132769861486928: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861489040: TensorSpec(shape=(1, 1, 384, 256), dtype=tf.float32, name=None)
+  132769861489232: TensorSpec(shape=(256,), dtype=tf.float32, name=None)
+  132769861490576: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861490384: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861491536: TensorSpec(shape=(3, 3, 128, 128), dtype=tf.float32, name=None)
+  132769861493264: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861493072: TensorSpec(shape=(3, 3, 128, 128), dtype=tf.float32, name=None)
+  132769861492880: TensorSpec(shape=(128,), dtype=tf.float32, name=None)
+  132769861490960: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861491152: TensorSpec(shape=(4,), dtype=tf.int64, name=None)
+  132769861491728: TensorSpec(shape=(1, 1, 384, 256), dtype=tf.float32, name=None)
+  132769861490192: TensorSpec(shape=(256,), dtype=tf.float32, name=None)
+  132769861490768: TensorSpec(shape=(3, 3, 256, 64), dtype=tf.float32, name=None)
+  132769861487504: TensorSpec(shape=(3, 3, 128, 64), dtype=tf.float32, name=None)
+  132769861596176: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861492112: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861487696: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861596368: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861494032: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861488464: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861597136: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861494224: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861488848: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861597520: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861494800: TensorSpec(shape=(1, 1, 64, 64), dtype=tf.float32, name=None)
+  132769861490000: TensorSpec(shape=(1, 1, 64, 64), dtype=tf.float32, name=None)
+  132769861598672: TensorSpec(shape=(1, 1, 64, 64), dtype=tf.float32, name=None)
+  132769861494992: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861489616: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861598288: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861493456: TensorSpec(shape=(3, 3, 256, 64), dtype=tf.float32, name=None)
+  132769861487888: TensorSpec(shape=(3, 3, 128, 64), dtype=tf.float32, name=None)
+  132769861596560: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861492304: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861488080: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861596752: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861493648: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861488272: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861596944: TensorSpec(shape=(3, 3, 64, 64), dtype=tf.float32, name=None)
+  132769861493840: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861488656: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861597328: TensorSpec(shape=(64,), dtype=tf.float32, name=None)
+  132769861496336: TensorSpec(shape=(1, 1, 16, 1), dtype=tf.float32, name=None)
+  132769861494416: TensorSpec(shape=(1, 1, 64, 3), dtype=tf.float32, name=None)
+  132769861489424: TensorSpec(shape=(1, 1, 64, 3), dtype=tf.float32, name=None)
+  132769861598096: TensorSpec(shape=(1, 1, 64, 3), dtype=tf.float32, name=None)
+  132769861494608: TensorSpec(shape=(3,), dtype=tf.float32, name=None)
+  132769861489808: TensorSpec(shape=(3,), dtype=tf.float32, name=None)
+  132769861598480: TensorSpec(shape=(3,), dtype=tf.float32, name=None)
+  132769861497104: TensorSpec(shape=(3,), dtype=tf.int64, name=None)
+  132769861496528: TensorSpec(shape=(3,), dtype=tf.int64, name=None)
+  132769861495760: TensorSpec(shape=(3,), dtype=tf.int64, name=None)
+  132769861495376: TensorSpec(shape=(3,), dtype=tf.int64, name=None)
+  132769861498448: TensorSpec(shape=(1, 2, 8400), dtype=tf.float32, name=None)
+  132769861496144: TensorSpec(shape=(1, 2, 8400), dtype=tf.float32, name=None)
+I0000 00:00:1781705524.561657  179821 devices.cc:67] Number of eligible GPUs (core count >= 8, compute capability >= 0.0): 1
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1781705524.561774  179821 single_machine.cc:374] Starting new session
+I0000 00:00:1781705524.562799  179821 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 2357 MB memory:  -> device: 0, name: NVIDIA GeForce GTX 1650, pci bus id: 0000:0a:00.0, compute capability: 7.5
+W0000 00:00:1781705524.991701  179821 tf_tfl_flatbuffer_helpers.cc:365] Ignored output_format.
+W0000 00:00:1781705524.991733  179821 tf_tfl_flatbuffer_helpers.cc:368] Ignored drop_control_dependency.
+I0000 00:00:1781705525.497775  179821 devices.cc:67] Number of eligible GPUs (core count >= 8, compute capability >= 0.0): 1
+I0000 00:00:1781705525.497932  179821 single_machine.cc:374] Starting new session
+I0000 00:00:1781705525.499009  179821 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 2357 MB memory:  -> device: 0, name: NVIDIA GeForce GTX 1650, pci bus id: 0000:0a:00.0, compute capability: 7.5
+W0000 00:00:1781705525.868506  179821 tf_tfl_flatbuffer_helpers.cc:365] Ignored output_format.
+W0000 00:00:1781705525.868535  179821 tf_tfl_flatbuffer_helpers.cc:368] Ignored drop_control_dependency.
+I0000 00:00:1781705526.372108  179821 devices.cc:67] Number of eligible GPUs (core count >= 8, compute capability >= 0.0): 1
+I0000 00:00:1781705526.372278  179821 single_machine.cc:374] Starting new session
+I0000 00:00:1781705526.373301  179821 gpu_device.cc:2019] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 2357 MB memory:  -> device: 0, name: NVIDIA GeForce GTX 1650, pci bus id: 0000:0a:00.0, compute capability: 7.5
+W0000 00:00:1781705526.990187  179821 tf_tfl_flatbuffer_helpers.cc:365] Ignored output_format.
+W0000 00:00:1781705526.990218  179821 tf_tfl_flatbuffer_helpers.cc:368] Ignored drop_control_dependency.
+
+
+W0000 00:00:1781705533.459775  179821 tf_tfl_flatbuffer_helpers.cc:365] Ignored output_format.
+W0000 00:00:1781705533.459807  179821 tf_tfl_flatbuffer_helpers.cc:368] Ignored drop_control_dependency.
+I0000 00:00:1781705533.482573  179821 mlir_graph_optimization_pass.cc:425] MLIR V1 optimization pass is not enabled
+fully_quantize: 0, inference_type: 6, input_inference_type: FLOAT32, output_inference_type: FLOAT32
+W0000 00:00:1781705673.500984  179821 tf_tfl_flatbuffer_helpers.cc:365] Ignored output_format.
+W0000 00:00:1781705673.501009  179821 tf_tfl_flatbuffer_helpers.cc:368] Ignored drop_control_dependency.
+fully_quantize: 0, inference_type: 6, input_inference_type: INT8, output_inference_type: INT8
+W0000 00:00:1781705813.622359  179821 tf_tfl_flatbuffer_helpers.cc:365] Ignored output_format.
+W0000 00:00:1781705813.622386  179821 tf_tfl_flatbuffer_helpers.cc:368] Ignored drop_control_dependency.
+W0000 00:00:1781706090.704561  179821 tf_tfl_flatbuffer_helpers.cc:365] Ignored output_format.
+W0000 00:00:1781706090.704586  179821 tf_tfl_flatbuffer_helpers.cc:368] Ignored drop_control_dependency.
+TensorFlow SavedModel: export success ✅ 1062.9s, saved as '/home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/best_saved_model' (38.9 MB)
+
+TensorFlow Lite: starting export with tensorflow 2.19.0...
+TensorFlow Lite: export success ✅ 0.0s, saved as '/home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/best_saved_model/best_int8.tflite' (3.2 MB)
+
+Export complete (1063.1s)
+Results saved to /home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/best_saved_model/best_int8.tflite
+Predict:         yolo predict task=detect model=/home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/best_saved_model/best_int8.tflite imgsz=640 int8
+Validate:        yolo val task=detect model=/home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/best_saved_model/best_int8.tflite imgsz=640 data=data_yolov8_gray/data.yaml int8 
+Visualize:       https://netron.app
+Export completed! TFLite model saved at: /home/aninit/Downloads/Anish/tablet_pills_counter/runs/detect/train-7/weights/best_saved_model/best_int8.tflite
+(.venv) aninit@aninit:~/Downloads/Anish/tablet_pills_counter$ 

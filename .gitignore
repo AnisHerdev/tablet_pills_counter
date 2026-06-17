@@ -6,3 +6,7 @@ data/
 
 data_yolov8
 data_yolov8_gray
+
+.venv
+
+runs

@@ -4,7 +4,7 @@ import os
 
 # 1. Load the exported TFLite model
 # Note: You will need to replace 'best_int8.tflite' with the new model exported by the grayscale notebook
-model = YOLO('best_int8.tflite', task='detect')
+model = YOLO('best_int8_20.tflite', task='detect')
 
 # 2. Point it to a test image
 image_path = '20260617_021150.jpg'
