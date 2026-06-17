@@ -24,14 +24,16 @@ for r in results:
     classes = r.boxes.cls.cpu().numpy()
     
     empty_count = sum(classes == 0)
-    fill_count = sum(classes == 1)
+    full_count = sum(classes == 1)
+    half_count = sum(classes == 2)
     
     print("\n" + "="*30)
     print("--- TABLET COUNT RESULTS ---")
     print("="*30)
-    print(f"💊 Pills Present (Fill): {fill_count}")
+    print(f"💊 Full Pills:           {full_count}")
+    print(f"🌙 Half Pills:           {half_count}")
     print(f"⭕ Empty Cavities:       {empty_count}")
-    print(f"📦 Total Sheet Capacity: {empty_count + fill_count}")
+    print(f"📦 Total Sheet Capacity: {empty_count + full_count + half_count}")
     print("="*30 + "\n")
 
     print("Opening image viewer with bounding boxes... (Press any key or close window to exit)")

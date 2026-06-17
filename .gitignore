@@ -1,1 +1,8 @@
 data/
+
+*.jpg
+
+*.zip
+
+data_yolov8
+data_yolov8_gray
